@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.springcloud.mapper.PaymentDao" >
+
+    <resultMap id="BaseResultMap"  type="com.springcloud.entity.Payment">
+        <id column="id" property="id" jdbcType="BIGINT"></id>
+        <id column="serial" property="serial" javaType="String"></id>
+    </resultMap>
+    <insert id="create" parameterType="Payment" useGeneratedKeys="true" keyProperty="id">
+        insert payment (serial) values (#(serial));
+    </insert>
+
+    <sql id="payment">
+        id,serial
+    </sql>
+    <select id="getPaymentById" parameterType="Long" resultMap="BaseResultMap">
+        select <include refid="payment"/>
+        from payment where id = #{id}
+    </select>
+
+    <select id="findAll" parameterType="com.springcloud.entity.PageEntity" resultMap="BaseResultMap">
+        select <include refid="payment"/>
+        from payment where 1=1
+        <foreach item="payment" index="key" collection="pageEntity.map" separator=";" >
+            <if test="payment.serial!=null" >
+               and serial = #{payment.serial}
+            </if>
+            <if test="payment.id!=null" >
+                and id = #{payment.id}
+            </if>
+        </foreach>
+        <if test="pageEntity.page > 0 and pageEntity.size > 0">
+            LIMIT #{pageEntity.offSet},#{pageEntity.limit};
+        </if>
+    </select>
+
+</mapper>

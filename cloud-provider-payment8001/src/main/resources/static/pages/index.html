@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="/static/element-ui/css/index.css">
+</head>
+<body style="background-image: url('./static/image/背景.png');background-repeat: no-repeat;background-size:cover">
+<div id="app" >
+    <div>
+        <el-row>
+            <el-col :span="8" v-for="(item, index) in list" :key="index" >
+                <el-card :body-style="{ padding: '0px' }" shadow="hover" style="width:300px;height:300px;margin-top: 50px;margin-left: 15%" @click.native="toMenu(item.codeArea)">
+                    <img v-bind:src="item.imageUrl" class="image">
+                    <div style="padding: 4px;">
+                        <span>{{item.title}}</span>
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>
+    </div>
+
+</div>
+</body>
+<script src="/static/element-ui/js/vue.js"></script>
+<script src="/static/element-ui/js/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data:function (){
+            return {
+                list:[{imageUrl:"/static/image/不合格品库.png",title:"不合格品库",codeArea:"FW9"},
+                    {imageUrl:"/static/image/冷库.png",title:"冷库",codeArea:"FW6,FW7,FWA"},
+                    {imageUrl:"/static/image/包材库.png",title:"包材库",codeArea:"FW1,FW3,FW4"},
+                    {imageUrl:"/static/image/危化品库.png",title:"危化品库",codeArea:"FW8"},
+                    {imageUrl:"/static/image/原辅料库.png",title:"原辅料库",codeArea:"FW2"},
+                    {imageUrl:"/static/image/暂存库.png",title:"暂存库",codeArea:"FW5"},
+                    {imageUrl:"/static/image/高架库.png",title:"高架库",codeArea:"AW1"}]
+
+            };
+        },
+        methods: {
+            toMenu:function(codeArea) {
+                window.location.href="/toMenu?codeArea="+codeArea;
+            }
+        }
+    })
+</script>
+
+<style>
+    .image {
+        width: 300px;
+        height: 260px;
+        display: block;
+    }
+
+</style>
